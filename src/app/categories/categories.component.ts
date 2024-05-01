@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import {
   MatTableModule,
   MatTable,
@@ -36,12 +36,19 @@ export class CategoriesComponent implements AfterViewInit {
   
   displayedColumns = ['id', 'name', 'description'];
 
+  showForm: Boolean = false;
+
   constructor(private categoryService: CategoryService) {
+  }
+
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
   }
 
   ngAfterViewInit(): void {
     this.loadCategories()
   }
+
 
   async loadCategories(): Promise<void> {
     const categories = await lastValueFrom(this.categoryService.getAll())
@@ -49,6 +56,14 @@ export class CategoriesComponent implements AfterViewInit {
     this.table.dataSource = this.dataSource
     this.dataSource.sort = this.sort
     this.dataSource.paginator = this.paginator
+  }
 
+  onNewCategoryClick() {
+    this.showForm = true;
+  }
+
+  hideCategoryForm() {
+    this.showForm = false;
+    this.loadCategories()
   }
 }
