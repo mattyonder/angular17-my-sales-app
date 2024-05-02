@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import {
   MatTableModule,
   MatTable,
@@ -6,7 +6,7 @@ import {
 } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatSortModule, MatSort } from '@angular/material/sort';
-import { CategoriesDataSource, CategoriesItem } from './categories-datasource';
+import { CategoriesItem } from './categories-datasource';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CategoryService } from './category.service';
@@ -34,15 +34,11 @@ export class CategoriesComponent implements AfterViewInit {
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   
-  displayedColumns = ['id', 'name', 'description'];
+  displayedColumns = ['id', 'name', 'description', 'actions'];
 
   showForm: Boolean = false;
 
   constructor(private categoryService: CategoryService) {
-  }
-
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 
   ngAfterViewInit(): void {
@@ -65,5 +61,15 @@ export class CategoriesComponent implements AfterViewInit {
   hideCategoryForm() {
     this.showForm = false;
     this.loadCategories()
+  }
+
+  async onSave(category: Category) {
+    const saved = lastValueFrom(this.categoryService.save(category))
+    console.log('Saved', saved)
+    this.hideCategoryForm()
+  }
+
+  onEditCategoryClick(category: Category) {
+    console.log('dit category', category)
   }
 }
