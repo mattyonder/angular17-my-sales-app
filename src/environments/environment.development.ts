@@ -1,3 +1,3 @@
 export const environment = {
-    api: 'http://localhost:3000/'
+    api: 'https://my-sales-app-server.vercel.app/'
 };
